@@ -6,7 +6,10 @@
 
   <groupId>org.parakeetnest.parakeet4j</groupId>
   <artifactId>parakeet4j</artifactId>
+  <version>0.0.0</version>
+  <!--
   <version>1.0-SNAPSHOT</version>
+  -->
 
   <distributionManagement>
     <repository>
