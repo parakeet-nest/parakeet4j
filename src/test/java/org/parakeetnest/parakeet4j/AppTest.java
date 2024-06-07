@@ -1,8 +1,8 @@
 package org.parakeetnest.parakeet4j;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import org.assertj.core.api.AbstractStringAssert;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit test for simple App.
@@ -15,6 +15,7 @@ public class AppTest
     @Test
     public void shouldAnswerWithTrue()
     {
-        assertTrue( true );
+        AbstractStringAssert<?> equalTo = assertThat("hello").isEqualTo("hello");
+
     }
 }
