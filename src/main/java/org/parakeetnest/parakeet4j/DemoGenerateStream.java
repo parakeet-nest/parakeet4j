@@ -9,15 +9,12 @@ public class DemoGenerateStream
 {
     public static void main( String[] args ) {
 
-        Options options = new Options();
-        options.setTemperature(0.0)
+        Options options = new Options()
+                .setTemperature(0.0)
                 .setRepeatLastN(2);
 
-        Query query = new Query();
-        query.setModel("tinyllama")
-                .setPrompt("Who is James T Kirk, and who is his best friend?")
-                .setOptions(options);
-
+        Query query = new Query("tinyllama", options)
+                .setPrompt("Who is James T Kirk, and who is his best friend?");
 
         GenerateStream("http://0.0.0.0:11434", query,
                 chunk -> {

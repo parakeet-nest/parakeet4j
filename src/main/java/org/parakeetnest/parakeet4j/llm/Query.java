@@ -3,6 +3,18 @@ package org.parakeetnest.parakeet4j.llm;
 import java.util.List;
 
 public class Query {
+
+    public Query() {}
+
+    public Query(String model) {
+        this.model = model;
+    }
+
+    public Query(String model, Options options) {
+        this.model = model;
+        this.options = options;
+    }
+
     private String model;
     private List<Message> messages; // For Chat Completion
     private Options options;

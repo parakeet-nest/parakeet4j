@@ -13,8 +13,8 @@ public class DemoChat
     public static void main( String[] args )
     {
 
-        Options options = new Options();
-        options.setTemperature(0.0)
+        Options options = new Options()
+                .setTemperature(0.0)
                 .setRepeatLastN(2);
 
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
@@ -25,11 +25,7 @@ public class DemoChat
                 new Message("user", userContent)
         );
 
-        Query queryChat = new Query();
-        queryChat.setModel("tinyllama")
-                .setMessages(messages)
-                .setOptions(options);
-
+        Query queryChat = new Query("tinyllama", options).setMessages(messages);
 
         Chat("http://0.0.0.0:11434", queryChat,
                 answer -> {
