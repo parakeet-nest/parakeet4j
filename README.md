@@ -3,7 +3,7 @@
 
 ## Install
 
-This project use the GitHub Maven Registry.
+This library project use the GitHub Maven Registry. So, to use it in your projects, use the following steps.
 
 ### First
 
