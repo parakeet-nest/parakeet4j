@@ -7,7 +7,7 @@ This library project use the GitHub Maven Registry. So, to use it in your projec
 
 ### First
 
-Create (or update) a dile: `~/.m2/settings.xml` with the following content
+Create (or update) a file: `~/.m2/settings.xml` with the following content
 
 ```xml
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
