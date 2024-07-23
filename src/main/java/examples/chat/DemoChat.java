@@ -1,4 +1,4 @@
-package org.parakeetnest.parakeet4j;
+package examples.chat;
 
 import org.parakeetnest.parakeet4j.llm.Message;
 import org.parakeetnest.parakeet4j.llm.Options;
@@ -18,7 +18,7 @@ public class DemoChat
                 .setRepeatLastN(2);
 
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
-        var userContent = "Who is Jean-Luc Picard";
+        var userContent = "Who is Jean-Luc Picard?";
 
         List<Message> messages = List.of(
                 new Message("system", systemContent),

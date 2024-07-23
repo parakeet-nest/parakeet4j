@@ -5,7 +5,7 @@ import java.util.List;
 public class VectorRecord {
     private String id;
     private String prompt;
-    private List<Double> embedding;
+    private double[] embedding;
 
     // Getters and Setters
     public String getId() {
@@ -26,11 +26,11 @@ public class VectorRecord {
         return this;
     }
 
-    public List<Double> getEmbedding() {
+    public double[] getEmbedding() {
         return embedding;
     }
 
-    public VectorRecord setEmbedding(List<Double> embedding) {
+    public VectorRecord setEmbedding(double[] embedding) {
         this.embedding = embedding;
         return this;
     }
