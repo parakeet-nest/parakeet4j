@@ -1,4 +1,4 @@
-package org.parakeetnest.parakeet4j;
+package examples.generate;
 
 import org.parakeetnest.parakeet4j.llm.Answer;
 import org.parakeetnest.parakeet4j.llm.Options;

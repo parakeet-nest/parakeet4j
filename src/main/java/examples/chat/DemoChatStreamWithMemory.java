@@ -1,4 +1,4 @@
-package org.parakeetnest.parakeet4j;
+package examples.chat;
 
 import org.parakeetnest.parakeet4j.history.MemoryMessages;
 import org.parakeetnest.parakeet4j.llm.Message;

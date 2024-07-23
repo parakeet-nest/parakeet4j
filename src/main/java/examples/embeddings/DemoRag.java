@@ -1,4 +1,4 @@
-package org.parakeetnest.parakeet4j;
+package examples.embeddings;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;

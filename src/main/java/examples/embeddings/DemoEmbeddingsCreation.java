@@ -1,4 +1,4 @@
-package org.parakeetnest.parakeet4j;
+package examples.embeddings;
 
 import org.parakeetnest.parakeet4j.llm.*;
 

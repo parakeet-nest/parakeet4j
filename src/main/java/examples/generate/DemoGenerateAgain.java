@@ -1,11 +1,11 @@
-package org.parakeetnest.parakeet4j;
+package examples.generate;
 
 import org.parakeetnest.parakeet4j.llm.Options;
 import org.parakeetnest.parakeet4j.llm.Query;
 
 import static org.parakeetnest.parakeet4j.completion.Completion.Generate;
 
-public class DemoGenerate
+public class DemoGenerateAgain
 {
     public static void main( String[] args ) {
 
@@ -18,12 +18,9 @@ public class DemoGenerate
                 .setPrompt("Who is James T Kirk, and who is his best friend?")
                 .setOptions(options);
 
-        Generate("http://localhost:11434", query,
-                answer -> {
-                    System.out.println("🙂: " + answer.getResponse());
-                },
-                err -> {
-                    System.out.println("😡: " + err.getMessage());
-                });
+        var resultAnswer = Generate("http://localhost:11434", query);
+        if (resultAnswer.getException() == null) {
+            System.out.println(resultAnswer.getAnswer().getResponse());
+        }
     }
 }
