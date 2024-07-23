@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+This is a WIP 🚧
+ */
 public class MemoryMessages {
     private Map<String, MessageRecord> messages;
 

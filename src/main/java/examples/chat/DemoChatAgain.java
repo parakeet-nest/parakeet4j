@@ -29,10 +29,10 @@ public class DemoChatAgain
 
         var resultAnswer = Chat("http://0.0.0.0:11434", queryChat);
 
-        if (resultAnswer.getException() == null) {
+        if (resultAnswer.exception().isEmpty()) {
             System.out.println("😛: " + resultAnswer.getAnswer().getMessage().getContent());
         } else {
-            System.out.println("😡: " + resultAnswer.getException().getMessage());
+            System.out.println("😡: " + resultAnswer.exception().toString());
         }
 
     }

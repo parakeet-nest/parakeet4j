@@ -11,7 +11,7 @@ public class DemoEmbeddingsCreationAgain
         var content = "The best Pizza of the world is the pineapple pizza.";
         Query4Embedding query4Embedding = new Query4Embedding("all-minilm",content);
 
-        var resVector = CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "000");
+        var resVector = CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "pineapple-pizza");
 
         if (resVector.exception().isEmpty()) {
             System.out.println(resVector.getVectorRecord().getId() + ": " + resVector.getVectorRecord().getPrompt());
@@ -23,9 +23,5 @@ public class DemoEmbeddingsCreationAgain
         } else {
             System.out.println("😡: " + resVector.exception().toString());
         }
-
-
-
-
     }
 }

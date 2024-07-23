@@ -14,7 +14,7 @@ public class DemoEmbeddingsCreation
         var content = "The best Pizza of the world is the pineapple pizza.";
         Query4Embedding query4Embedding = new Query4Embedding("all-minilm",content);
 
-        CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "000",
+        CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "pineapple-pizza",
                 vectorRecord -> {
                     System.out.println(vectorRecord.getId() + ": " + vectorRecord.getPrompt());
 

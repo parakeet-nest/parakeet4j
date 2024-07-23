@@ -12,7 +12,6 @@ public class DemoChatStream
 {
     public static void main( String[] args )
     {
-
         Options options = new Options()
                 .setTemperature(0.0)
                 .setRepeatLastN(2);
@@ -25,15 +24,12 @@ public class DemoChatStream
                 new Message("user", userContent)
         );
 
-        Query queryChat = new Query()
-                .setModel("tinyllama")
-                .setMessages(messages)
-                .setOptions(options);
+        Query queryChat = new Query("tinyllama", options).setMessages(messages);
 
         ChatStream("http://0.0.0.0:11434", queryChat,
                 chunk -> {
                     System.out.print(chunk.getMessage().getContent());
-                    //return new Error("😡"); //=> it stops the stream
+                    //return new Exception("😡"); //=> it stops the stream
                     return null;
                 },
                 answer -> {
@@ -44,6 +40,5 @@ public class DemoChatStream
                 err -> {
                     System.out.println("😡: " + err.getMessage());
                 });
-
     }
 }
