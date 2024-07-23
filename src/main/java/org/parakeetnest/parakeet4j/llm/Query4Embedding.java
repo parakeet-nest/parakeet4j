@@ -4,6 +4,17 @@ public class Query4Embedding {
     private String prompt;
     private String model;
 
+    public Query4Embedding() {}
+
+    public Query4Embedding(String model) {
+        this.model = model;
+    }
+
+    public Query4Embedding(String model, String prompt) {
+        this.prompt = prompt;
+        this.model = model;
+    }
+
     /*
     public Query4Embedding(String prompt, String model) {
         this.prompt = prompt;

@@ -25,6 +25,5 @@ public class DemoGenerate
                 err -> {
                     System.out.println("😡: " + err.getMessage());
                 });
-
     }
 }

@@ -15,12 +15,18 @@ public class Query {
         this.options = options;
     }
 
+    public Query(String model, Options options, List<Message> messages) {
+        this.model = model;
+        this.messages = messages;
+        this.options = options;
+    }
+
     private String model;
     private List<Message> messages; // For Chat Completion
     private Options options;
     private boolean stream;
     private String prompt; // For "Simple" Completion
-    private List<Integer> context; // For "Simple" Completion
+    private int[] context; // For "Simple" Completion
 
     private String format; // https://github.com/ollama/ollama/blob/main/docs/api.md#request-json-mode
     private boolean keepAlive;
@@ -74,11 +80,11 @@ public class Query {
         return this;
     }
 
-    public List<Integer> getContext() {
+    public int[] getContext() {
         return context;
     }
 
-    public Query setContext(List<Integer> context) {
+    public Query setContext(int[] context) {
         this.context = context;
         return this;
     }

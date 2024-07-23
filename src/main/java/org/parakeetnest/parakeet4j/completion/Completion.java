@@ -28,7 +28,7 @@ import java.util.Arrays;
 
 public class Completion {
 
-    private static void completion(String ollamaUrl, String kindOfCompletion, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+    private static Answer completion(String ollamaUrl, String kindOfCompletion, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
 
         query.setStream(false);
 
@@ -102,24 +102,28 @@ public class Completion {
                 answer.setEvalDuration(jsonAnswer.getLong("eval_duration"));
 
                 onSuccess.handle(answer);
+                return answer;
 
 
             } else {
                 //response.statusCode())
                 onFailure.handle(new Error(response.body()));
+                return null;
             }
 
         } catch (MalformedURLException e) {
             // System.out.println("URL is invalid : " + e.getMessage());
             onFailure.handle(e);
+            return null;
         } catch (IOException | InterruptedException | URISyntaxException e) {
             onFailure.handle(e);
+            return null;
             //throw new RuntimeException(e);
         }
 
     }
 
-    private static void processJsonStream(java.io.InputStream inputStream, String kindOfCompletion, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess) throws Exception {
+    private static Answer processJsonStream(java.io.InputStream inputStream, String kindOfCompletion, ChunkHandler<Answer, Error> onChunk) throws Exception {
         Answer answerOnSuccess = new Answer();
         answerOnSuccess.setResponse("");
         answerOnSuccess.setMessage(new Message("",""));
@@ -158,7 +162,6 @@ public class Completion {
                         //foo;
                 }
 
-
                 answer.setDone(jsonAnswer.getBoolean("done"));
 
                 // Streaming is terminated
@@ -186,7 +189,7 @@ public class Completion {
                     answerOnSuccess.setEvalCount(answer.getEvalCount());
                     answerOnSuccess.setEvalDuration(answer.getEvalDuration());
 
-                    onSuccess.handle(answerOnSuccess);
+                    //onSuccess.handle(answerOnSuccess);
 
                 } else {
                     // if /generate or /chat
@@ -212,14 +215,16 @@ public class Completion {
                 Error err = onChunk.handle(answer);
                 if(err != null)  {
                     reader.reset();
+                    return null;
                 };
-            }
+
+
+            } // End While
+            return answerOnSuccess;
         }
     }
 
-
-
-    private static void completionStream(String ollamaUrl, String kindOfCompletion, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+    private static Answer completionStream(String ollamaUrl, String kindOfCompletion, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
 
         query.setStream(true);
 
@@ -247,40 +252,42 @@ public class Completion {
             // Handle the response
             if (response.statusCode() == 200) {
 
-                processJsonStream(response.body(), kindOfCompletion, onChunk, onSuccess);
+                // processJsonStream(response.body(), kindOfCompletion, onChunk, onSuccess);
+                Answer answer = processJsonStream(response.body(), kindOfCompletion, onChunk);
+                onSuccess.handle(answer);
+                return answer;
 
             } else {
                 //response.statusCode())
                 onFailure.handle(new Error(response.body().toString()));
+                return null;
             }
 
         } catch (MalformedURLException e) {
-            // System.out.println("URL is invalid : " + e.getMessage());
             onFailure.handle(e);
-        } catch (IOException | InterruptedException | URISyntaxException e) {
-            onFailure.handle(e);
-            //throw new RuntimeException(e);
+            return null;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            onFailure.handle(e);
+            return null;
+            //throw new RuntimeException(e);
         }
 
     }
 
-
-    public static void Generate(String ollamaUrl, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
-        completion(ollamaUrl, "generate", query, onSuccess, onFailure);
+    public static Answer Generate(String ollamaUrl, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+        return completion(ollamaUrl, "generate", query, onSuccess, onFailure);
     }
 
-    public static void GenerateStream(String ollamaUrl, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
-        completionStream(ollamaUrl, "generate", query, onChunk, onSuccess, onFailure);
+    public static Answer GenerateStream(String ollamaUrl, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+        return completionStream(ollamaUrl, "generate", query, onChunk, onSuccess, onFailure);
     }
 
-    public static void Chat(String ollamaUrl, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
-        completion(ollamaUrl, "chat", query, onSuccess, onFailure);
+    public static Answer Chat(String ollamaUrl, Query query, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+        return completion(ollamaUrl, "chat", query, onSuccess, onFailure);
     }
 
-    public static void ChatStream(String ollamaUrl, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
-        completionStream(ollamaUrl, "chat", query, onChunk, onSuccess, onFailure);
+    public static Answer ChatStream(String ollamaUrl, Query query, ChunkHandler<Answer, Error> onChunk, Handler<Answer> onSuccess, Handler<Throwable> onFailure) {
+        return completionStream(ollamaUrl, "chat", query, onChunk, onSuccess, onFailure);
     }
 
 }
