@@ -1,9 +1,6 @@
 package org.parakeetnest.parakeet4j;
 
-import org.parakeetnest.parakeet4j.llm.Message;
-import org.parakeetnest.parakeet4j.llm.Options;
-import org.parakeetnest.parakeet4j.llm.Query;
-import org.parakeetnest.parakeet4j.llm.Query4Embedding;
+import org.parakeetnest.parakeet4j.llm.*;
 
 import java.util.List;
 
@@ -20,7 +17,11 @@ public class DemoEmbeddingsCreation
         CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "000",
                 vectorRecord -> {
                     System.out.println(vectorRecord.getId() + ": " + vectorRecord.getPrompt());
-                    System.out.println(vectorRecord.getEmbedding());
+
+                    for (double item : vectorRecord.getEmbedding()) {
+                        System.out.print(item);
+                        System.out.print(" ");
+                    }
                 },
                 err -> {
                     System.out.println("😡: " + err.getMessage());

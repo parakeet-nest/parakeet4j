@@ -34,8 +34,7 @@ public class Embeddings {
     }
 
 
-
-    public static void CreateEmbedding(String ollamaUrl, Query4Embedding query, String id ,Handler<VectorRecord> onSuccess, Handler<Throwable> onFailure) {
+    private static ResultVectorRecord createEmbedding(String ollamaUrl, Query4Embedding query, String id ,Handler<VectorRecord> onSuccess, Handler<Throwable> onFailure) {
         try {
             // Create HTTP client
             HttpClient client = HttpClient.newBuilder()
@@ -65,24 +64,41 @@ public class Embeddings {
                 vectorRecord.setPrompt(query.getPrompt());
                 vectorRecord.setId(id);
 
-                vectorRecord.setEmbedding(Arrays.stream(embedding)
-                        .mapToObj(Double::valueOf)
-                        .collect(Collectors.toList())); // List<double>
+                vectorRecord.setEmbedding(embedding);
 
                 onSuccess.handle(vectorRecord);
+                return new ResultVectorRecord(vectorRecord, null);
 
 
             } else {
                 //response.statusCode())
-                onFailure.handle(new Error(response.body()));
+                Exception e = new Exception(response.body());
+                onFailure.handle(e);
+                return new ResultVectorRecord(null, e);
+
             }
 
 
         } catch (Exception e) {
-
+            onFailure.handle(e);
+            return new ResultVectorRecord(null, e);
         }
     }
+
+    public static ResultVectorRecord CreateEmbedding(String ollamaUrl, Query4Embedding query, String id ,Handler<VectorRecord> onSuccess, Handler<Throwable> onFailure) {
+        return createEmbedding(ollamaUrl, query, id, onSuccess, onFailure);
+    }
+
+    public static ResultVectorRecord CreateEmbedding(String ollamaUrl, Query4Embedding query, String id) {
+        return createEmbedding(ollamaUrl, query, id, v -> {}, e -> {});
+    }
 }
+
+
+
+
+
+
 
 
 // func CreateEmbedding(ollamaUrl string, query llm.Query4Embedding, id string) (llm.VectorRecord, error) {

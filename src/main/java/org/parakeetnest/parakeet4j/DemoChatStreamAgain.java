@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.parakeetnest.parakeet4j.completion.Completion.ChatStream;
 
-public class DemoChatStream
+public class DemoChatStreamAgain
 {
     public static void main( String[] args )
     {
@@ -30,20 +30,20 @@ public class DemoChatStream
                 .setMessages(messages)
                 .setOptions(options);
 
-        ChatStream("http://0.0.0.0:11434", queryChat,
+        var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,
                 chunk -> {
                     System.out.print(chunk.getMessage().getContent());
-                    //return new Error("😡"); //=> it stops the stream
+                    //return new Exception("😡"); //=> it stops the stream
                     return null;
-                },
-                answer -> {
-                    System.out.println();
-                    System.out.println("--------------------------------------");
-                    System.out.println("😛: " + answer.getMessage().getContent());
-                },
-                err -> {
-                    System.out.println("😡: " + err.getMessage());
                 });
+
+        if(resultAnswer.getException() == null) {
+            System.out.println();
+            System.out.println("--------------------------------------");
+            System.out.println("😛: " + resultAnswer.getAnswer().getMessage().getContent());
+        } else {
+            System.out.println("😡: " + resultAnswer.getException().getMessage());
+        }
 
     }
 }

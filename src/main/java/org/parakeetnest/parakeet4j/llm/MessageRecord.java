@@ -5,6 +5,14 @@ public class MessageRecord {
     private String role;
     private String content;
 
+    public MessageRecord() {}
+
+    public MessageRecord(String id, String role, String content) {
+        this.id = id;
+        this.role = role;
+        this.content = content;
+    }
+
     public String getId() {
         return id;
     }

@@ -36,10 +36,7 @@ public class MemoryVectorStore {
             String k = entry.getKey();
             VectorRecord v = entry.getValue();
 
-            double[] arrayFromQuestion = embeddingFromQuestion.getEmbedding().stream().mapToDouble(Double::doubleValue).toArray();
-            double[] arrayFromChunk = v.getEmbedding().stream().mapToDouble(Double::doubleValue).toArray();
-
-            double distance = cosineDistance(arrayFromQuestion, arrayFromChunk);
+            double distance = cosineDistance(embeddingFromQuestion.getEmbedding(), v.getEmbedding());
             if (distance > maxDistance) {
                 maxDistance = distance;
                 selectedKeyRecord = k;
@@ -53,10 +50,7 @@ public class MemoryVectorStore {
 
         for (VectorRecord v : records.values()) {
 
-            double[] arrayFromQuestion = embeddingFromQuestion.getEmbedding().stream().mapToDouble(Double::doubleValue).toArray();
-            double[] arrayFromChunk = v.getEmbedding().stream().mapToDouble(Double::doubleValue).toArray();
-
-            double distance = cosineDistance(arrayFromQuestion, arrayFromChunk);
+            double distance = cosineDistance(embeddingFromQuestion.getEmbedding(), v.getEmbedding());
             if (distance >= limit) {
                 recordsList.add(v);
             }

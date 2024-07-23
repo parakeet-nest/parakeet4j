@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.parakeetnest.parakeet4j.completion.Completion.Chat;
 
-public class DemoChat
+public class DemoChatAgain
 {
     public static void main( String[] args )
     {
@@ -27,13 +27,13 @@ public class DemoChat
 
         Query queryChat = new Query("tinyllama", options).setMessages(messages);
 
-        Chat("http://0.0.0.0:11434", queryChat,
-                answer -> {
-                    System.out.println("😛: " + answer.getMessage().getContent());
-                },
-                err -> {
-                    System.out.println("😡: " + err.getMessage());
-                });
+        var resultAnswer = Chat("http://0.0.0.0:11434", queryChat);
+
+        if (resultAnswer.getException() == null) {
+            System.out.println("😛: " + resultAnswer.getAnswer().getMessage().getContent());
+        } else {
+            System.out.println("😡: " + resultAnswer.getException().getMessage());
+        }
 
     }
 }
