@@ -1,14 +1,60 @@
-package examples.embeddings;
+# Embeddings
 
-import org.parakeetnest.parakeet4j.embeddings.MemoryVectorStore;
-import org.parakeetnest.parakeet4j.llm.*;
+## Create an embedding from a content
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+```java
+public class DemoEmbeddingsCreation
+{
+    public static void main( String[] args )
+    {
+        var content = "The best Pizza of the world is the pineapple pizza.";
+        Query4Embedding query4Embedding = new Query4Embedding("all-minilm",content);
 
-import static org.parakeetnest.parakeet4j.completion.Completion.ChatStream;
-import static org.parakeetnest.parakeet4j.embeddings.Embeddings.CreateEmbedding;
+        CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "pineapple-pizza",
+                vectorRecord -> {
+                    System.out.println(vectorRecord.getId() + ": " + vectorRecord.getPrompt());
 
+                    for (double item : vectorRecord.getEmbedding()) {
+                        System.out.print(item);
+                        System.out.print(" ");
+                    }
+                },
+                err -> {
+                    System.out.println("😡: " + err.getMessage());
+                });
+    }
+}
+```
+
+### Alternative version
+
+```java
+public class DemoEmbeddingsCreationAgain
+{
+    public static void main( String[] args )
+    {
+        var content = "The best Pizza of the world is the pineapple pizza.";
+        Query4Embedding query4Embedding = new Query4Embedding("all-minilm",content);
+
+        var resVector = CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "pineapple-pizza");
+
+        if (resVector.exception().isEmpty()) {
+            System.out.println(resVector.getVectorRecord().getId() + ": " + resVector.getVectorRecord().getPrompt());
+
+            for (double item : resVector.getVectorRecord().getEmbedding()) {
+                System.out.print(item);
+                System.out.print(" ");
+            }
+        } else {
+            System.out.println("😡: " + resVector.exception().toString());
+        }
+    }
+}
+```
+
+## Embeddings creation and Similarity search
+
+```java
 public class DemoRagAgain
 {
     public static void main( String[] args )
@@ -99,7 +145,7 @@ public class DemoRagAgain
         );
 
         Query queryChat = new Query("phi3:mini", options, messages);
-
+        
         var resChat = ChatStream("http://0.0.0.0:11434", queryChat,
                             chunk -> {
                                 System.out.print(chunk.getMessage().getContent());
@@ -113,3 +159,18 @@ public class DemoRagAgain
 
     }
 }
+```
+
+The result of the completion should be like this:
+```text
+ Philippe Charrière, also known as the Silent Sentinel of the USS Discovery on Star Trek: 
+ Discovery, stands out for his exceptional programming skills and ability to solve problems swiftly. 
+ He serves as a guardian figure aboard the starship, protecting its secrets with codes he has developed himself. 
+ Charrière is characterized by being reticent in communication but communicates effectively through technology 
+ due to his unique fluency in machine languages. 
+ Interestingly, despite not belonging to Starfleet or any known organization within the Trek universe, 
+ Philippe's best friend happens to be Spiderman from Earth’s Marvel Cinematic Universe—a connection that adds 
+ a layer of intrigue and intertextuality between different fictional worlds.
+```
+
+

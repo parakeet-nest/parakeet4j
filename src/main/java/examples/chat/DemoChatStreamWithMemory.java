@@ -22,10 +22,10 @@ public class DemoChatStreamWithMemory
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
         var userContent = "Who is James T Kirk?";
 
-        List<Message> messages = List.of(
+        List<Message> messages = new java.util.ArrayList<>(List.of(
                 new Message("system", systemContent),
                 new Message("user", userContent)
-        );
+        ));
 
         Query queryChat = new Query("tinyllama", options, messages);
 
@@ -40,19 +40,15 @@ public class DemoChatStreamWithMemory
             System.exit(1);
         }
 
-        conversation.saveMessage("previousQuestion", messages.get(1));
-        conversation.saveMessage("firstAnswer", new Message("ai", resultAnswer.getAnswer().getMessage().getContent()));
+        // Add the answer to the list of the messages
+        messages.add(new Message("ai", resultAnswer.getAnswer().getMessage().getContent()));
 
         var nextUserContent = "Who is his best friend?";
 
-        List<Message> nextMessages = new java.util.ArrayList<>(List.of(
-                new Message("system", systemContent)
-        ));
-        nextMessages.addAll(conversation.getAllMessages());
+        // Add the new question to the list of the messages
+        messages.add(new Message("user", nextUserContent));
 
-        nextMessages.add(new Message("user", nextUserContent));
-
-        Query nextQueryChat = new Query("tinyllama", options, nextMessages);
+        Query nextQueryChat = new Query("tinyllama", options, messages);
 
         System.out.println();
         System.out.println("--------------------------------------");
@@ -67,6 +63,5 @@ public class DemoChatStreamWithMemory
             System.out.println("😡: " + nextResultAnswer.exception().toString());
             System.exit(1);
         }
-
     }
 }

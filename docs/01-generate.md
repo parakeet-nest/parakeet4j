@@ -1,6 +1,6 @@
-# Generate
+# Generate completion
 > https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion
-## Simple completion
+## Generate request
 
 The simple completion can be used to generate a response for a given prompt with a provided model.
 
@@ -53,7 +53,7 @@ public class DemoGenerate
 }
 ```
 
-## Simple completion with stream
+## Generate request with streaming
 
 ```Java
 public class DemoGenerateStream
