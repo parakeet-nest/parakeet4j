@@ -25,6 +25,9 @@ public class DockerFile
         2. Copy the project source files
         3. Compile the Go application
         4. Create a lightweight final image for execution
+        
+        Then, generate a compose file for the project.
+        
         Ensure the Dockerfile is well-commented and follows best practices. Briefly explain each step after the Dockerfile.
         """;
 
@@ -42,7 +45,9 @@ public class DockerFile
                 new Message("user", userContent)
         );
 
-        Query queryChat = new Query("phi3:mini", options).setMessages(messages);
+        //Query queryChat = new Query("phi3:mini", options).setMessages(messages);
+        //Query queryChat = new Query("phi3:medium", options).setMessages(messages);
+        Query queryChat = new Query("llama3", options).setMessages(messages);
 
         var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,
                 chunk -> {
