@@ -19,8 +19,8 @@ public class DemoGenerateAgain
                 .setOptions(options);
 
         var resultAnswer = Generate("http://localhost:11434", query);
-        if (resultAnswer.getException() == null) {
-            System.out.println(resultAnswer.getAnswer().getResponse());
+        if (resultAnswer.exception().isEmpty()) {
+            System.out.println(resultAnswer.exception().toString());
         }
     }
 }

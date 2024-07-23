@@ -17,10 +17,8 @@ public class DemoGenerateWithContext
                 .setTemperature(0.0)
                 .setRepeatLastN(2);
 
-        Query query = new Query()
-                .setModel("tinyllama")
-                .setPrompt("Who is James T Kirk?")
-                .setOptions(options);
+        Query query = new Query("tinyllama", options)
+                .setPrompt("Who is James T Kirk?");
 
         var firstAnswer = new Answer();
 
@@ -36,11 +34,9 @@ public class DemoGenerateWithContext
         System.out.println();
         System.out.println("--------------------------------------");
 
-        Query nextQuery = new Query()
-                .setModel("tinyllama")
-                .setPrompt("Who is his best friend?")
+        Query nextQuery = new Query("tinyllama", options)
                 .setContext(firstAnswer.getContext())
-                .setOptions(options);
+                .setPrompt("Who is his best friend?");
 
         Generate("http://localhost:11434", nextQuery,
                 answer -> {

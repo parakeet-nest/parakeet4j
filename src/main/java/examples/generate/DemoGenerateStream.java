@@ -19,7 +19,7 @@ public class DemoGenerateStream
         GenerateStream("http://0.0.0.0:11434", query,
                 chunk -> {
                     System.out.print(chunk.getResponse());
-                    //return new Error("😡"); //=> it stops the stream
+                    //return new Exception("😡"); //=> it stops the stream
                     return null;
                 },
                 answer -> {

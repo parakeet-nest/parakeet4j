@@ -23,13 +23,13 @@ public class DemoGenerateStreamAgain
                     return null;
                 });
 
-        if(resultAnswer.getException() == null) {
+        if(resultAnswer.exception().isEmpty()) {
             System.out.println();
             System.out.println("--------------------------------------");
             System.out.println("🙂: " + resultAnswer.getAnswer().getResponse());
         } else {
             System.out.println();
-            System.out.println(resultAnswer.getException().getMessage());
+            System.out.println(resultAnswer.exception().toString());
         }
     }
 }
