@@ -45,9 +45,8 @@ public class DockerFile
                 new Message("user", userContent)
         );
 
-        //Query queryChat = new Query("phi3:mini", options).setMessages(messages);
-        //Query queryChat = new Query("phi3:medium", options).setMessages(messages);
-        Query queryChat = new Query("llama3", options).setMessages(messages);
+        Query queryChat = new Query("llama3.1:8b", options).setMessages(messages);
+        //Query queryChat = new Query("llama3", options).setMessages(messages);
 
         var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,
                 chunk -> {
