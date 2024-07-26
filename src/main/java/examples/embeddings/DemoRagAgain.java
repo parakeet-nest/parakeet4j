@@ -98,7 +98,9 @@ public class DemoRagAgain
                 new Message("user", userContent)
         );
 
+        //Query queryChat = new Query("tinyllama", options, messages);
         Query queryChat = new Query("phi3:mini", options, messages);
+
 
         var resChat = ChatStream("http://0.0.0.0:11434", queryChat,
                             chunk -> {

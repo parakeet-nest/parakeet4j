@@ -92,14 +92,30 @@ public class Completion {
                         //foo;
                 }
 
+                //System.out.println(answer.getMessage().getContent());
+
                 answer.setDone(jsonAnswer.getBoolean("done"));
                 // TODO: to implement: done_reason
-                answer.setTotalDuration(jsonAnswer.getLong("total_duration"));
-                answer.setLoadDuration(jsonAnswer.getInteger("load_duration"));
-                answer.setPromptEvalCount(jsonAnswer.getInteger("prompt_eval_count"));
-                answer.setPromptEvalDuration(jsonAnswer.getInteger("prompt_eval_duration"));
-                answer.setEvalCount(jsonAnswer.getInteger("eval_count"));
-                answer.setEvalDuration(jsonAnswer.getLong("eval_duration"));
+
+                // TODO: long or double?
+                var total_duration = (jsonAnswer.getLong("total_duration")==null) ? 0L : jsonAnswer.getLong("total_duration");
+                answer.setTotalDuration(total_duration);
+
+                var load_duration = (jsonAnswer.getInteger("load_duration")==null) ? 0 : jsonAnswer.getInteger("load_duration");
+                answer.setLoadDuration(load_duration);
+
+                var prompt_eval_count = (jsonAnswer.getInteger("prompt_eval_count")==null) ? 0 : jsonAnswer.getInteger("prompt_eval_count");
+                answer.setPromptEvalCount(prompt_eval_count);
+
+                var prompt_eval_duration = (jsonAnswer.getInteger("prompt_eval_duration")==null) ? 0 : jsonAnswer.getInteger("prompt_eval_duration");
+                answer.setPromptEvalDuration(prompt_eval_duration);
+
+                var eval_count = (jsonAnswer.getInteger("eval_count")==null) ? 0 : jsonAnswer.getInteger("eval_count");
+                answer.setEvalCount(eval_count);
+
+                // TODO: long or double?
+                var eval_duration = (jsonAnswer.getLong("eval_duration")==null) ? 0L : jsonAnswer.getLong("eval_duration");
+                answer.setEvalDuration(eval_duration);
 
                 onSuccess.handle(answer);
                 return new ResultAnswer(answer, null);
@@ -182,13 +198,16 @@ public class Completion {
 
                     answerOnSuccess.setModel(answer.getModel());
                     answerOnSuccess.setCreatedAt(answer.getCreatedAt());
+
                     // TODO: to implement: done_reason
+
                     answerOnSuccess.setTotalDuration(answer.getTotalDuration());
                     answerOnSuccess.setLoadDuration(answer.getLoadDuration());
                     answerOnSuccess.setPromptEvalCount(answer.getPromptEvalCount());
                     answerOnSuccess.setPromptEvalDuration(answer.getPromptEvalDuration());
                     answerOnSuccess.setEvalCount(answer.getEvalCount());
                     answerOnSuccess.setEvalDuration(answer.getEvalDuration());
+
 
                 } else {
                     // if /generate or /chat
