@@ -1,6 +1,6 @@
 # 🦜🪺☕️ Parakeet4J
 
-Parakeet4J is the simplest Java library to create **GenAI apps** with **[Ollma](https://ollama.com/)**.
+Parakeet4J is the simplest Java library to create **GenAI apps** with **[Ollama](https://ollama.com/)**.
 
 > A GenAI app is an application that uses generative AI technology. Generative AI can create new text, images, or other content based on what it's been trained on. So a GenAI app could help you write a poem, design a logo, or even compose a song! These are still under development, but they have the potential to be creative tools for many purposes. - [Gemini](https://gemini.google.com)
 
@@ -62,7 +62,7 @@ Add this section to your `pom.xml` file:
     <dependency>
         <groupId>org.parakeetnest.parakeet4j</groupId>
         <artifactId>parakeet4j</artifactId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </dependency>
 </dependencies>
 ```
