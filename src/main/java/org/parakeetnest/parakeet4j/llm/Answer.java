@@ -76,6 +76,7 @@ public class Answer {
     }
 
     public Answer setTotalDuration(long totalDuration) {
+
         this.totalDuration = totalDuration;
         return this;
     }

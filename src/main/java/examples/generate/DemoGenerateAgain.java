@@ -20,7 +20,7 @@ public class DemoGenerateAgain
 
         var resultAnswer = Generate("http://localhost:11434", query);
         if (resultAnswer.exception().isEmpty()) {
-            System.out.println(resultAnswer.exception().toString());
+            System.out.println(resultAnswer.getAnswer().getResponse());
         }
     }
 }

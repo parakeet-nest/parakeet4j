@@ -17,7 +17,7 @@ public class DemoChatStreamWithMemory
                 .setTemperature(0.0)
                 .setRepeatLastN(2);
 
-        var conversation = new MemoryMessages();
+        //var conversation = new MemoryMessages();
 
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
         var userContent = "Who is James T Kirk?";
