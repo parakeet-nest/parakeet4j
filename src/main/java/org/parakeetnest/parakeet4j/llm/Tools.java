@@ -10,6 +10,11 @@ public class Tools {
         return "[AVAILABLE_TOOLS] " + jsonTools.encodePrettily() + " [/AVAILABLE_TOOLS]";
     }
 
+    public static String GenerateJsonToolsList(List<Tool> tools) {
+        var jsonTools = new JsonArray(tools);
+        return jsonTools.encodePrettily();
+    }
+
     public static String GenerateInstructions(String instruction) {
         return "[INST] " + instruction + " [/INST]";
     }

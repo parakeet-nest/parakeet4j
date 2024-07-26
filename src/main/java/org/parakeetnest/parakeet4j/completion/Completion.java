@@ -32,6 +32,8 @@ public class Completion {
 
         query.setStream(false);
 
+        //if(query.getTools())
+
         try {
             // Create HTTP client
             HttpClient client = HttpClient.newBuilder()
@@ -40,6 +42,8 @@ public class Completion {
                     .build();
 
             JsonObject jsonOllamaPayload = new JsonObject(Json.encode(query));
+
+            //System.out.println("🔴🟥:" + jsonOllamaPayload.getJsonArray("tools").encodePrettily());
 
             // Create HTTP request
             HttpRequest request = HttpRequest.newBuilder()
@@ -80,19 +84,22 @@ public class Completion {
 
                         break;
                     case "chat":
-                        //System.out.println("🟢" + jsonAnswer.getJsonObject("message"));
-                        //JsonObject jsonMessage = new JsonObject(jsonAnswer.getString("message"));
+
                         JsonObject jsonMessage = jsonAnswer.getJsonObject("message");
                         Message msg = new Message();
                         msg.setRole(jsonMessage.getString("role"));
                         msg.setContent(jsonMessage.getString("content"));
+
+                       // System.out.println("🔵🟦:"+jsonMessage.encodePrettily());
+
+                        JsonArray tool_calls = (jsonMessage.getJsonArray("tool_calls") == null) ? new JsonArray() : jsonMessage.getJsonArray("tool_calls");
+                        msg.setToolCalls(tool_calls.encodePrettily());
+
                         answer.setMessage(msg);
                         break;
                     default:
                         //foo;
                 }
-
-                //System.out.println(answer.getMessage().getContent());
 
                 answer.setDone(jsonAnswer.getBoolean("done"));
                 // TODO: to implement: done_reason
@@ -173,6 +180,11 @@ public class Completion {
                         Message msg = new Message();
                         msg.setRole(jsonMessage.getString("role"));
                         msg.setContent(jsonMessage.getString("content"));
+
+                        // NO tool_calls with stream
+                        //msg.setToolCalls(jsonMessage.getString("tools_call"));
+
+
                         answer.setMessage(msg);
                         break;
                     default:
