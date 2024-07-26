@@ -34,6 +34,9 @@ public class Query {
     private String system;
     private String template;
 
+    private List<Tool> tools;
+
+
     // Getters and Setters
     public String getModel() {
         return model;
@@ -131,6 +134,15 @@ public class Query {
 
     public Query setTemplate(String template) {
         this.template = template;
+        return this;
+    }
+
+    public List<Tool> getTools() {
+        return tools;
+    }
+
+    public Query setTools(List<Tool> tools) {
+        this.tools = tools;
         return this;
     }
 }
