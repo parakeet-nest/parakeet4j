@@ -8,20 +8,23 @@ import java.util.List;
 
 import static org.parakeetnest.parakeet4j.completion.Completion.ChatStream;
 
-public class DockerFile4WebApp
+public class DockerFile4GoLangWebApp
 {
     public static void main( String[] args )
     {
 
         Options options = new Options()
                 .setTemperature(0.0)
-                .setRepeatLastN(2);
+                .setRepeatLastN(2)
+                .setRepeatPenalty(2.0)
+                .setTopK(10)
+                .setTopP(0.5);
 
         var systemContent = """
-        As an expert in Go and Docker, generate a Dockerfile and Docker Compose file for a typical Go project. The Dockerfile should:
+        As an expert in Go and Docker, generate a Dockerfile and Docker Compose file for a typical Go project.
         
         Regarding the Dockerfile:
-        1. Use an official Go base image
+        1. Use an official Go base image (I use go version '1.22.1')
         2. Use the /app working directory
         3. Copy the project source files
         4. Compile the Go application
@@ -78,8 +81,13 @@ public class DockerFile4WebApp
                 new Message("user", userContent)
         );
 
-        Query queryChat = new Query("llama3.1:8b", options).setMessages(messages);
-        //Query queryChat = new Query("mistral", options).setMessages(messages);
+        //Query queryChat = new Query("llama3.1:8b", options).setMessages(messages);
+        // llama3.1:8b 🙂
+        // granite-code:3b 😡
+        // phi3:mini 😡
+        // codeqwen 🙂
+        Query queryChat = new Query("codeqwen", options).setMessages(messages);
+
 
         var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,
                 chunk -> {
