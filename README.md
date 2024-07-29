@@ -6,6 +6,46 @@ Parakeet4J is the simplest Java library to create **GenAI apps** with **[Ollama]
 
 > ✋ Parakeet4J is only for creating GenAI apps generating **text** (not image, music,...).
 
+## Hello World!
+
+```java
+public class Hello
+{
+    public static void main( String[] args )
+    {
+        Options options = new Options()
+                .setTemperature(0.0)
+                .setRepeatLastN(2);
+
+        var systemContent = "You are a useful AI agent, expert with programming";
+        var userContent = "Generate a Hello World program in GoLang.";
+
+        List<Message> messages = List.of(
+                new Message("system", systemContent),
+                new Message("user", userContent)
+        );
+
+        Query queryChat = new Query("deepseek-coder", options).setMessages(messages);
+
+        var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,
+                chunk -> {
+                    System.out.print(chunk.getMessage().getContent());
+                    return null;
+                });
+
+        if(resultAnswer.exception().isEmpty()) {
+            System.out.println("🙂: " + 
+                    resultAnswer.getAnswer().getMessage().getContent()
+            );
+        } else {
+            System.out.println("😡: " + 
+                    resultAnswer.exception().toString()
+            );
+        }
+    }
+}
+```
+
 ## Install
 
 This library project use the [GitHub Maven Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry). So, to use it in your projects, use the following steps.
