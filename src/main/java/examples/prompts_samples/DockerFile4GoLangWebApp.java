@@ -86,7 +86,8 @@ public class DockerFile4GoLangWebApp
         // granite-code:3b 😡
         // phi3:mini 😡
         // codeqwen 🙂
-        Query queryChat = new Query("codeqwen", options).setMessages(messages);
+        //Query queryChat = new Query("codeqwen", options).setMessages(messages);
+        Query queryChat = new Query("gemma2:2b", options).setMessages(messages);
 
 
         var resultAnswer = ChatStream("http://0.0.0.0:11434", queryChat,

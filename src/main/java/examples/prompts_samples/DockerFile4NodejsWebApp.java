@@ -83,10 +83,9 @@ public class DockerFile4NodejsWebApp
                 new Message("user", userContent)
         );
 
-        Query queryChat = new Query("llama3.1:8b", options).setMessages(messages);
+        Query queryChat = new Query("gemma2:2b", options).setMessages(messages);
         // llama3.1:8b 🙂
-        // granite-code:3b 😡
-        // phi3:mini 😡
+        // gemma2:2b 🙂
         // codeqwen 🙂
         //Query queryChat = new Query("codeqwen", options).setMessages(messages);
 
