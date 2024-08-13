@@ -2,10 +2,7 @@ package org.parakeetnest.parakeet4j.embeddings;
 
 import org.parakeetnest.parakeet4j.llm.VectorRecord;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryVectorStore {
     private final Map<String, VectorRecord> records;
@@ -52,6 +49,7 @@ public class MemoryVectorStore {
 
             double distance = cosineDistance(embeddingFromQuestion.getEmbedding(), v.getEmbedding());
             if (distance >= limit) {
+                v.setCosineDistance(distance);
                 recordsList.add(v);
             }
         }
@@ -59,7 +57,28 @@ public class MemoryVectorStore {
         return recordsList;
     }
 
-    public static double dotProduct(double[] v1, double[] v2) {
+    public List<VectorRecord> searchTopNSimilarities(VectorRecord embeddingFromQuestion, double limit, int max) {
+        List<VectorRecord> recordsList = searchSimilarities(embeddingFromQuestion, limit);
+        return getTopNVectorRecords(recordsList, max);
+    }
+
+    private static List<VectorRecord> getTopNVectorRecords(List<VectorRecord> records, int max) {
+        // Sort the records list in descending order based on CosineDistance
+        Collections.sort(records, new Comparator<VectorRecord>() {
+            @Override
+            public int compare(VectorRecord vr1, VectorRecord vr2) {
+                return Double.compare(vr2.getCosineDistance(), vr1.getCosineDistance());
+            }
+        });
+
+        // Return the first max records or all if less than max
+        if (records.size() < max) {
+            return records;
+        }
+        return records.subList(0, max);
+    }
+
+    private static double dotProduct(double[] v1, double[] v2) {
         // Calculate the dot product of two vectors
         double sum = 0.0;
         for (int i = 0; i < v1.length; i++) {
@@ -68,7 +87,7 @@ public class MemoryVectorStore {
         return sum;
     }
 
-    public static double cosineDistance(double[] v1, double[] v2) {
+    private static double cosineDistance(double[] v1, double[] v2) {
         // Calculate the cosine distance between two vectors
         double product = dotProduct(v1, v2);
         double norm1 = Math.sqrt(dotProduct(v1, v1));

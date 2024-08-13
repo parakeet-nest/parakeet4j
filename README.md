@@ -102,7 +102,7 @@ Add this section to your `pom.xml` file:
     <dependency>
         <groupId>org.parakeetnest.parakeet4j</groupId>
         <artifactId>parakeet4j</artifactId>
-        <version>0.0.4</version>
+        <version>0.0.5</version>
     </dependency>
 </dependencies>
 ```

@@ -52,7 +52,7 @@ public class DemoEmbeddingsCreationAgain
 }
 ```
 
-## Embeddings creation and Similarity search
+## Embeddings creation, in-memory Vector Store and Similarity search
 
 ```java
 public class DemoRagAgain
@@ -173,4 +173,121 @@ The result of the completion should be like this:
  a layer of intrigue and intertextuality between different fictional worlds.
 ```
 
+## Similarity search methods
 
+- `public VectorRecord searchMaxSimilarity(VectorRecord embeddingFromQuestion)`
+  - `searchMaxSimilarity` searches for the vector record in the Vector Store that has the maximum **cosine distance similarity** to the given `embeddingFromQuestion`
+- `public List<VectorRecord> searchSimilarities(VectorRecord embeddingFromQuestion, double limit)`
+    - `searchSimilarities` searches for vector records in the Vector Store that have a **cosine distance similarity** greater than or equal to the given `limit` and returns the found records
+- `public List<VectorRecord> searchTopNSimilarities(VectorRecord embeddingFromQuestion, double limit, int n)`
+  - `searchTopNSimilarities` searches for vector records in the Vector Store that have a **cosine distance similarity** greater than or equal to the given `limit` and returns the top `n` records 
+
+## Embeddings creation, MapDB Vector Store and Similarity search
+
+- MapDB Vector Store allows the persistence of the data
+
+### Create and save the embeddings to the MapDB Vector Store
+
+```java
+public class DemoVectorStoreMapDbEmbeddingsCreation
+{
+    public static void main( String[] args )
+    {
+
+        String[] docs = {"""
+        Michael Burnham is the main character on the Star Trek series, Discovery.  
+        She's a human raised on the logical planet Vulcan by Spock's father.  
+        Burnham is intelligent and struggles to balance her human emotions with Vulcan logic.  
+        She's become a Starfleet captain known for her determination and problem-solving skills.
+        Originally played by actress Sonequa Martin-Green""",
+                """
+        James T. Kirk, also known as Captain Kirk, is a fictional character from the Star Trek franchise.  
+        He's the iconic captain of the starship USS Enterprise, 
+        boldly exploring the galaxy with his crew.  
+        Originally played by actor William Shatner, 
+        Kirk has appeared in TV series, movies, and other media.""",
+                """
+        Jean-Luc Picard is a fictional character in the Star Trek franchise.
+        He's most famous for being the captain of the USS Enterprise-D,
+        a starship exploring the galaxy in the 24th century.
+        Picard is known for his diplomacy, intelligence, and strong moral compass.
+        He's been portrayed by actor Patrick Stewart.""",
+                """
+        Lieutenant Philippe Charrière, known as the **Silent Sentinel** of the USS Discovery, 
+        is the enigmatic programming genius whose codes safeguard the ship's secrets and operations. 
+        His swift problem-solving skills are as legendary as the mysterious aura that surrounds him. 
+        Charrière, a man of few words, speaks the language of machines with unrivaled fluency, 
+        making him the crew's unsung guardian in the cosmos. His best friend is Spiderman from the Marvel Cinematic Universe."""
+        };
+
+        var store = new MapDbVectorStore("./star.trek.vectors.db");
+
+        AtomicInteger index = new AtomicInteger();
+        // Create embedding for each chunk of docs
+        for (String doc : docs) {
+            Query4Embedding query4Embedding = new Query4Embedding("all-minilm",doc);
+
+            var resVector = CreateEmbedding("http://0.0.0.0:11434", query4Embedding, Integer.toString(index.get()));
+
+            if (resVector.exception().isEmpty()) {
+                System.out.println(resVector.getVectorRecord().getId() + ": " + resVector.getVectorRecord().getPrompt());
+                
+                store.save(resVector.getVectorRecord());
+                index.getAndIncrement();
+
+            } else {
+                System.out.println("😡: " + resVector.exception().toString());
+            }
+        }
+        store.close();
+    }
+}
+```
+
+### Read the embeddings from the MapDB Vector Store and find similarities
+
+```java
+public class DemoVectorStoreMapDbEmbeddingsRead
+{
+    public static void main( String[] args )
+    {
+        var store = new MapDbVectorStore("./star.trek.vectors.db");
+
+        var userContent = "Who is Philippe Charrière?";
+        Query4Embedding query4Embedding = new Query4Embedding("all-minilm",userContent);
+        System.out.println("----------------------------------------");
+
+        // Create embedding with the user question:
+        CreateEmbedding("http://0.0.0.0:11434", query4Embedding, "question",
+                vectorRecord -> {
+                    System.out.println(vectorRecord.getId() + ": " + vectorRecord.getPrompt());
+
+                    // Search the similarities
+                    var similarities = store.searchTopNSimilarities(vectorRecord, 0.4, 1);
+
+                    // Display the list of similarities
+                    for (VectorRecord record : similarities) {
+                        System.out.println(record.getCosineDistance());
+                        System.out.println(record.getPrompt());
+                        System.out.println("----------------------------------------");
+                    }
+                },
+                err -> {
+                    System.out.println("😡: " + err.getMessage());
+                });
+    }
+}
+```
+
+The result of the completion should be like this:
+```text
+----------------------------------------
+question: Who is Philippe Charrière?
+0.470433877566825
+Lieutenant Philippe Charrière, known as the **Silent Sentinel** of the USS Discovery,
+is the enigmatic programming genius whose codes safeguard the ship's secrets and operations.
+His swift problem-solving skills are as legendary as the mysterious aura that surrounds him.
+Charrière, a man of few words, speaks the language of machines with unrivaled fluency,
+making him the crew's unsung guardian in the cosmos. His best friend is Spiderman from the Marvel Cinematic Universe.
+----------------------------------------
+```
