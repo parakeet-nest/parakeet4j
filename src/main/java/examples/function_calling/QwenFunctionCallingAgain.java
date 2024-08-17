@@ -29,9 +29,9 @@ public class QwenFunctionCallingAgain
                 <name of the argument>: <value of the argument>
             }
         }
-        
+     
         search the name of the tool in the list of tools with the Name field
-	    """;
+        """;
 
         var helloFunction = new Function("hello",
                 new Parameters("object",

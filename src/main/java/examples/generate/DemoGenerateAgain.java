@@ -11,7 +11,8 @@ public class DemoGenerateAgain
 
         Options options = new Options()
                 .setTemperature(0.0)
-                .setRepeatLastN(2);
+                .setRepeatLastN(2)
+                .setVerbose(true);
 
         Query query = new Query()
                 .setModel("tinyllama")

@@ -21,6 +21,9 @@ public class DemoGenerate
         Generate("http://localhost:11434", query,
                 answer -> {
                     System.out.println("🙂: " + answer.getResponse());
+
+                    System.out.println("📦" +  answer.toJsonString());
+
                 },
                 err -> {
                     System.out.println("😡: " + err.getMessage());

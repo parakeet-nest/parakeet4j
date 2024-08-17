@@ -3,10 +3,7 @@ package examples.rag_regex;
 import org.parakeetnest.parakeet4j.content.Content;
 import org.parakeetnest.parakeet4j.embeddings.Embeddings;
 import org.parakeetnest.parakeet4j.embeddings.MemoryVectorStore;
-import org.parakeetnest.parakeet4j.llm.Message;
-import org.parakeetnest.parakeet4j.llm.Options;
-import org.parakeetnest.parakeet4j.llm.Query;
-import org.parakeetnest.parakeet4j.llm.Query4Embedding;
+import org.parakeetnest.parakeet4j.llm.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -38,6 +35,12 @@ public class DemoRag
             CreateEmbedding("http://0.0.0.0:11434", query4Embedding,  Integer.toString(index.get()),
                     vectorRecord -> {
                         System.out.println("Creating embedding from document " + vectorRecord.getId());
+
+                        // you can add additional data to the vector record
+                        vectorRecord.setText("THIS IS THE CHUNK NUM "+Integer.toString(index.get()));
+                        vectorRecord.setReference("THIS IS THE CHUNK DOC REF");
+                        vectorRecord.setMetaData("THIS IS THE CHUNK META DATA");
+
                         store.save(vectorRecord);
                         index.getAndIncrement();
                     },
@@ -63,6 +66,11 @@ public class DemoRag
         // Search the similarities
         if(resVector.exception().isEmpty()) {
             var similarities = store.searchSimilarities(resVector.getVectorRecord(), 0.3);
+
+            // display additional information
+            for (VectorRecord similarity : similarities) {
+                System.out.println("-->" + similarity.getText());
+            }
 
             documentsContent = Embeddings.GenerateContextFromSimilarities(similarities);
 

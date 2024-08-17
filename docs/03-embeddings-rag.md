@@ -291,3 +291,12 @@ Charrière, a man of few words, speaks the language of machines with unrivaled f
 making him the crew's unsung guardian in the cosmos. His best friend is Spiderman from the Marvel Cinematic Universe.
 ----------------------------------------
 ```
+
+## Add additional data to the vector record
+
+> you can add additional data to the vector record
+```java
+vectorRecord.setText("THIS IS THE CHUNK NUM "+Integer.toString(index.get()));
+vectorRecord.setReference("THIS IS THE CHUNK DOC REF");
+vectorRecord.setMetaData("THIS IS THE CHUNK META DATA");
+```

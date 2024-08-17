@@ -1,5 +1,7 @@
 package org.parakeetnest.parakeet4j.llm;
 
+import io.vertx.core.json.JsonObject;
+
 import java.util.List;
 
 public class Query {
@@ -36,6 +38,22 @@ public class Query {
 
     private List<Tool> tools;
 
+    public String toJsonString() {
+        var jsonObject = new JsonObject();
+        jsonObject.put("model", model);
+        jsonObject.put("messages", messages);
+        jsonObject.put("options", options);
+        jsonObject.put("stream", stream);
+        jsonObject.put("prompt", prompt);
+        jsonObject.put("context", context);
+        jsonObject.put("format", format);
+        jsonObject.put("keepAlive", keepAlive);
+        jsonObject.put("raw", raw);
+        jsonObject.put("system", system);
+        jsonObject.put("template", template);
+        jsonObject.put("tools", tools);
+        return jsonObject.encodePrettily();
+    }
 
     // Getters and Setters
     public String getModel() {

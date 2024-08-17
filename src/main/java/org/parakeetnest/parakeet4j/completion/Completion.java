@@ -34,6 +34,11 @@ public class Completion {
 
         //if(query.getTools())
 
+        // Verbose mode
+        if(query.getOptions().isVerbose()) {
+            System.out.println("[llm/query]:\n" +  query.toJsonString());
+        }
+
         try {
             // Create HTTP client
             HttpClient client = HttpClient.newBuilder()
@@ -124,6 +129,11 @@ public class Completion {
                 var eval_duration = (jsonAnswer.getLong("eval_duration")==null) ? 0L : jsonAnswer.getLong("eval_duration");
                 answer.setEvalDuration(eval_duration);
 
+                // Verbose mode
+                if(query.getOptions().isVerbose()) {
+                    System.out.println("[llm/completion]:\n" +  answer.toJsonString());
+                }
+
                 onSuccess.handle(answer);
                 return new ResultAnswer(answer, null);
 
@@ -193,8 +203,30 @@ public class Completion {
 
                 answer.setDone(jsonAnswer.getBoolean("done"));
 
+
                 // Streaming is terminated
                 if(jsonAnswer.getBoolean("done")) {
+
+                    // TODO: long or double?
+                    var total_duration = (jsonAnswer.getLong("total_duration")==null) ? 0L : jsonAnswer.getLong("total_duration");
+                    answer.setTotalDuration(total_duration);
+
+                    var load_duration = (jsonAnswer.getInteger("load_duration")==null) ? 0 : jsonAnswer.getInteger("load_duration");
+                    answer.setLoadDuration(load_duration);
+
+                    var prompt_eval_count = (jsonAnswer.getInteger("prompt_eval_count")==null) ? 0 : jsonAnswer.getInteger("prompt_eval_count");
+                    answer.setPromptEvalCount(prompt_eval_count);
+
+                    var prompt_eval_duration = (jsonAnswer.getInteger("prompt_eval_duration")==null) ? 0 : jsonAnswer.getInteger("prompt_eval_duration");
+                    answer.setPromptEvalDuration(prompt_eval_duration);
+
+                    var eval_count = (jsonAnswer.getInteger("eval_count")==null) ? 0 : jsonAnswer.getInteger("eval_count");
+                    answer.setEvalCount(eval_count);
+
+                    // TODO: long or double?
+                    var eval_duration = (jsonAnswer.getLong("eval_duration")==null) ? 0L : jsonAnswer.getLong("eval_duration");
+                    answer.setEvalDuration(eval_duration);
+
 
                     // if /generate or /chat
                     switch (kindOfCompletion) {
@@ -261,6 +293,11 @@ public class Completion {
 
         query.setStream(true);
 
+        // Verbose mode
+        if(query.getOptions().isVerbose()) {
+            System.out.println("[llm/query]:\n" +  query.toJsonString());
+        }
+
         try {
 
             // Create HTTP client
@@ -287,6 +324,14 @@ public class Completion {
 
                 // processJsonStream(response.body(), kindOfCompletion, onChunk, onSuccess);
                 ResultAnswer resultAnswer = processJsonStream(response.body(), kindOfCompletion, onChunk);
+
+                // Verbose mode
+                if(query.getOptions().isVerbose()) {
+                    //System.out.println("");
+                    System.out.println("");
+                    System.out.println("[llm/completion]:\n" +  resultAnswer.getAnswer().toJsonString());
+                }
+
                 onSuccess.handle(resultAnswer.getAnswer());
 
                 return resultAnswer;

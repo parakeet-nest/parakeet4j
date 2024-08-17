@@ -15,7 +15,8 @@ public class DemoChat
 
         Options options = new Options()
                 .setTemperature(0.0)
-                .setRepeatLastN(2);
+                .setRepeatLastN(2)
+                .setVerbose(true);
 
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
         var userContent = "Who is Jean-Luc Picard?";
@@ -30,6 +31,7 @@ public class DemoChat
         Chat("http://0.0.0.0:11434", queryChat,
                 answer -> {
                     System.out.println("😛: " + answer.getMessage().getContent());
+
                 },
                 err -> {
                     System.out.println("😡: " + err.getMessage());

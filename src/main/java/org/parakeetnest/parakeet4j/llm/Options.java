@@ -22,6 +22,21 @@ public class Options {
     private double mirostatEta;
     private boolean penalizeNewline;
 
+    public Options() {
+        this.verbose = false;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+    public Options setVerbose(boolean verbose) {
+        this.verbose = verbose;
+        return this;
+    }
+
+    private boolean verbose;
+
     public int getRepeatLastN() {
         return repeatLastN;
     }

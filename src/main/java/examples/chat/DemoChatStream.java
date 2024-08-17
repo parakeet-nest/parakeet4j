@@ -14,7 +14,8 @@ public class DemoChatStream
     {
         Options options = new Options()
                 .setTemperature(0.0)
-                .setRepeatLastN(2);
+                .setRepeatLastN(2)
+                .setVerbose(true);
 
         var systemContent = "You are a useful AI agent, expert with the Star Trek franchise.";
         var userContent = "Who is Jean-Luc Picard?";

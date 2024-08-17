@@ -1,5 +1,8 @@
 package org.parakeetnest.parakeet4j.llm;
 
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
+
 import java.time.LocalDateTime;
 
 public class Answer {
@@ -16,6 +19,26 @@ public class Answer {
     private int promptEvalDuration;
     private int evalCount;
     private long evalDuration;
+
+
+
+    public String toJsonString() {
+        var jsonObject = new JsonObject();
+        jsonObject.put("model", model);
+        jsonObject.put("message", message);
+        jsonObject.put("done", done);
+        jsonObject.put("response", response);
+        jsonObject.put("context", context);
+        jsonObject.put("createdAt", createdAt.toString());
+        jsonObject.put("totalDuration", totalDuration);
+        jsonObject.put("loadDuration", loadDuration);
+        jsonObject.put("promptEvalCount", promptEvalCount);
+        jsonObject.put("promptEvalDuration", promptEvalDuration);
+        jsonObject.put("evalCount", evalCount);
+        jsonObject.put("evalDuration", evalDuration);
+        return jsonObject.encodePrettily();
+    }
+
 
     public String getModel() {
         return model;

@@ -1,13 +1,14 @@
 {
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Real IntelliJ Light",
-    "editor.fontSize": 17,
-    "terminal.integrated.fontSize": 17,
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
     "editor.insertSpaces": true,
     "editor.tabSize": 4,
     "editor.detectIndentation": true,
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
     "editor.fontFamily": "Menlo",
+    "java.compile.nullAnalysis.mode": "disabled",
 
 }
