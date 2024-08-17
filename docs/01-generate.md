@@ -234,4 +234,10 @@ output:
 }
 ```
 
+## Protected endpoint
 
+If your Ollama endpoint is protected with a header token, you can specify the token like this:
+
+```java
+query.setTokenHeaderName("X-TOKEN").setTokenHeaderValue("john doe");
+```

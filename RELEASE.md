@@ -4,24 +4,12 @@
 > - create a tag on GitHub
 > - pull
 
-### What's new (v0.0.6)
+### What's new (v0.0.7)
 
-#### Completion 
+#### Protected endpoint
 
-Verbose mode:
+If your Ollama endpoint is protected with a header token, you can specify the token like this:
+
 ```java
-Options options = new Options()
-        .setTemperature(0.0)
-        .setRepeatLastN(2)
-        .setVerbose(true);
+query.setTokenHeaderName("X-TOKEN").setTokenHeaderValue("john doe");
 ```
-
-#### Memory Persistent Vector Store
-
-Add additional data to a vector record:
-```java
-vectorRecord.setText("THIS IS THE CHUNK NUM "+Integer.toString(index.get()));
-vectorRecord.setReference("THIS IS THE CHUNK DOC REF");
-vectorRecord.setMetaData("THIS IS THE CHUNK META DATA");
-```
-

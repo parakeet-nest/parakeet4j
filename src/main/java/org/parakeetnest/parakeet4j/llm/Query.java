@@ -38,6 +38,9 @@ public class Query {
 
     private List<Tool> tools;
 
+    private String tokenHeaderName;
+    private String tokenHeaderValue;
+
     public String toJsonString() {
         var jsonObject = new JsonObject();
         jsonObject.put("model", model);
@@ -53,6 +56,24 @@ public class Query {
         jsonObject.put("template", template);
         jsonObject.put("tools", tools);
         return jsonObject.encodePrettily();
+    }
+
+    public String getTokenHeaderName() {
+        return tokenHeaderName;
+    }
+
+    public Query setTokenHeaderName(String tokenHeaderName) {
+        this.tokenHeaderName = tokenHeaderName;
+        return this;
+    }
+
+    public String getTokenHeaderValue() {
+        return tokenHeaderValue;
+    }
+
+    public Query setTokenHeaderValue(String tokenHeaderValue) {
+        this.tokenHeaderValue = tokenHeaderValue;
+        return this;
     }
 
     // Getters and Setters

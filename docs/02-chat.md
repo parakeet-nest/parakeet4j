@@ -285,3 +285,11 @@ output:
   "evalDuration" : 499293000
 }
 ```
+
+## Protected endpoint
+
+If your Ollama endpoint is protected with a header token, you can specify the token like this:
+
+```java
+queryChat.setTokenHeaderName("X-TOKEN").setTokenHeaderValue("john doe");
+```

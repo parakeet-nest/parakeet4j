@@ -300,3 +300,11 @@ vectorRecord.setText("THIS IS THE CHUNK NUM "+Integer.toString(index.get()));
 vectorRecord.setReference("THIS IS THE CHUNK DOC REF");
 vectorRecord.setMetaData("THIS IS THE CHUNK META DATA");
 ```
+
+## Protected endpoint
+
+If your Ollama endpoint is protected with a header token, you can specify the token like this:
+
+```java
+query4Embedding.setTokenHeaderName("X-TOKEN").setTokenHeaderValue("john snow");
+```

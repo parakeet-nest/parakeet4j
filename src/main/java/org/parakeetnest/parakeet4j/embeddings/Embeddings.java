@@ -60,11 +60,22 @@ public class Embeddings {
             JsonObject jsonOllamaPayload = new JsonObject(Json.encode(query));
 
             // Create HTTP request
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(ollamaUrl+"/api/embeddings"))
-                    .header("Content-Type", "application/json; charset=utf-8")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonOllamaPayload.toString()))
-                    .build();
+            HttpRequest request;
+
+            if (query.getTokenHeaderName() != null && query.getTokenHeaderValue() != null) {
+                request = HttpRequest.newBuilder()
+                        .uri(new URI(ollamaUrl+"/api/embeddings"))
+                        .header("Content-Type", "application/json; charset=utf-8")
+                        .header(query.getTokenHeaderName(), query.getTokenHeaderValue())
+                        .POST(HttpRequest.BodyPublishers.ofString(jsonOllamaPayload.toString()))
+                        .build();
+            } else {
+                request = HttpRequest.newBuilder()
+                        .uri(new URI(ollamaUrl+"/api/embeddings"))
+                        .header("Content-Type", "application/json; charset=utf-8")
+                        .POST(HttpRequest.BodyPublishers.ofString(jsonOllamaPayload.toString()))
+                        .build();
+            }
 
             // Send the request and get the answer
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

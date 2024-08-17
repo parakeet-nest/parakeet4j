@@ -4,6 +4,9 @@ public class Query4Embedding {
     private String prompt;
     private String model;
 
+    private String tokenHeaderName;
+    private String tokenHeaderValue;
+
     public Query4Embedding() {}
 
     public Query4Embedding(String model) {
@@ -21,6 +24,25 @@ public class Query4Embedding {
         this.model = model;
     }
     */
+
+    public String getTokenHeaderName() {
+        return tokenHeaderName;
+    }
+
+    public Query4Embedding setTokenHeaderName(String tokenHeaderName) {
+        this.tokenHeaderName = tokenHeaderName;
+        return this;
+    }
+
+    public String getTokenHeaderValue() {
+        return tokenHeaderValue;
+    }
+
+    public Query4Embedding setTokenHeaderValue(String tokenHeaderValue) {
+        this.tokenHeaderValue = tokenHeaderValue;
+        return this;
+    }
+
 
     public String getPrompt() {
         return prompt;

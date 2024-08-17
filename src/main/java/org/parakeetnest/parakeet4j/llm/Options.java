@@ -22,6 +22,8 @@ public class Options {
     private double mirostatEta;
     private boolean penalizeNewline;
 
+
+
     public Options() {
         this.verbose = false;
     }
